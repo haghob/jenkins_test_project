@@ -45,12 +45,14 @@ pipeline {
             }
             steps {
                 script {
-                    if (currentBuild.result == 'SUCCESS') {
+                    try {
                         sh './deploy_to_cloud.sh'
                         slackSend(channel: '#notifications', message: 'Deployment to production successful')
-                    } else {
-                        echo 'Tests failed on production branch. Skipping deployment.'
-                        slackSend(channel: '#notifications', message: 'Deployment to production failed')
+                    } catch (Exception e) {
+                        echo 'Deployment failed. Rolling back...'
+                        slackSend(channel: '#notifications', message: 'Deployment to production failed. Rollback initiated.')
+                        currentBuild.result = 'FAILURE'
+                        error("Rollback initiated")
                     }
                 }
             }
