@@ -1,5 +1,5 @@
 
-# Jenkins customized image built for devops project
+# Jenkins customized image built for project
 # Author Hana Ghorbel
 #
 # Usage with docker
@@ -15,16 +15,11 @@ LABEL maintainer="Hana Ghorbel <hana.ghorbel@ynov.com>"
 
 ###############################################
 
-# Disable setup wizard
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false -Dpermissive-script-security.enabled=true
-# ENV JENKINS_USER hana
-# ENV JENKINS_PASS Th3Jenkins!!!
 
 USER root
 
 #################################################
-
-# Docker and dependencies intsall
 RUN apt-get update \
   && apt-get -y install \
   apt-transport-https \
@@ -41,16 +36,12 @@ RUN apt-get update \
   && apt-get -y install \
   docker-ce \
   && rm -rf /var/lib/apt/lists/*
-
 #################################################
-
 RUN apt-get update && apt-get install -y \
   wget \
   unzip \
   graphviz* \
   && rm -rf /var/lib/apt/lists/*
-
-
 #################################################
 
 USER jenkins
