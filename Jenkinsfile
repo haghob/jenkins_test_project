@@ -39,6 +39,17 @@ pipeline {
                 }
             }
         }
+        stage('Static Code Analysis') {
+            steps {
+                sh 'npm install eslint'
+                sh 'npm run eslint'
+            }
+        }
+        stage('Test Coverage Report') {
+            steps {
+                sh 'mvn clean test jacoco:report'
+            }
+        }
         stage('Deploy') {
             when {
                 changeset "**/specific_folder/**"
