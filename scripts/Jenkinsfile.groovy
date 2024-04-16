@@ -1,10 +1,10 @@
 pipeline {
     agent any
-
+    
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git 'https://github.com/haghob/jenkins_test_project.git'
             }
         }
         stage('Build') {
