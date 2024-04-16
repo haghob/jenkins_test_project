@@ -25,8 +25,10 @@ pipeline {
                 script {
                     if (currentBuild.result == 'SUCCESS') {
                         sh './deploy_to_cloud.sh'
+                        slackSend(channel: '#notifications', message: 'Deployment to production successful')
                     } else {
                         echo 'Tests failed on production branch. Skipping deployment.'
+                        slackSend(channel: '#notifications', message: 'Deployment to production failed')
                     }
                 }
             }
