@@ -11,17 +11,21 @@ pipeline {
             matrix {
                 axes {
                     axis {
+                        name 'Browser'
+                        values 'chrome', 'firefox'
+                    }
+                    axis {
                         name 'Node_Version'
                         values '10.x', '12.x', '14.x'
                     }
                 }
                 stages {
-                    stage('Test') {
+                    stage('Run Tests') {
                         steps {
-                            echo "Running tests with Node.js ${Node_Version}"
+                            echo "Running tests on ${Browser} with Node.js ${Node_Version}"
                             sh "node --version"
                             sh "npm install"
-                            sh "npm test"
+                            sh "npm test --browser ${Browser}"
                         }
                     }
                 }

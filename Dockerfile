@@ -6,21 +6,13 @@
 #   (Run) docker run --rm --name myjenkins -p 8080:8080 -p 50000:50000 jenkins-cust
 
 ###############################################
-
 FROM jenkins/jenkins:lts-jdk11
 LABEL author="Hana Ghorbel <hana.ghorbel@ynov.com>"
 LABEL maintainer="Hana Ghorbel <hana.ghorbel@ynov.com>"
-
 ###############################################
-
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false -Dpermissive-script-security.enabled=true
-# ENV JENKINS_USER hana
-# ENV JENKINS_PASS Th3Jenkins!!!
-
 USER root
-
 #################################################
-
 RUN apt-get update \
   && apt-get -y install \
   apt-transport-https \
