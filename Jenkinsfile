@@ -8,13 +8,22 @@ pipeline {
             }
         }
         stage('Build') {
-            steps {
-                sh 'npm install'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'npm test'
+            matrix {
+                axes {
+                    axis {
+                        name 'VERSION'
+                        values '10', '12', '14'
+                    }
+                }
+                stages {
+                    stage('Build and Test') {
+                        steps {
+                            echo "Running tests with Node.js version ${VERSION}"
+                            sh "npm install"
+                            sh "npm run test --node=${VERSION}"
+                        }
+                    }
+                }
             }
         }
         stage('Deploy') {
