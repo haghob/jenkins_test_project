@@ -7,21 +7,27 @@ pipeline {
                 git 'https://github.com/haghob/jenkins_test_project.git'
             }
         }
-        stage('Build') {
-            matrix {
-                axes {
-                    axis {
-                        name 'VERSION'
-                        values '10', '12', '14'
+        stage('Build and Test') {
+            parallel {
+                stage('Node 10') {
+                    steps {
+                        echo "Running tests with Node.js version 10"
+                        sh "npm install"
+                        sh "npm run test --node=10"
                     }
                 }
-                stages {
-                    stage('Build and Test') {
-                        steps {
-                            echo "Running tests with Node.js version ${VERSION}"
-                            sh "npm install"
-                            sh "npm run test --node=${VERSION}"
-                        }
+                stage('Node 12') {
+                    steps {
+                        echo "Running tests with Node.js version 12"
+                        sh "npm install"
+                        sh "npm run test --node=12"
+                    }
+                }
+                stage('Node 14') {
+                    steps {
+                        echo "Running tests with Node.js version 14"
+                        sh "npm install"
+                        sh "npm run test --node=14"
                     }
                 }
             }
