@@ -34,5 +34,32 @@ Avec docker-compose (il est nécessaire d'utiliser cette commande) :
 docker-compose up -d
 ```
 
+# Étapes 
+
+### Dockerfile pour Jenkins :
+
+création d'un Dockerfile personnalisé pour Jenkins, lui permettant d'être exécuté dans un conteneur Docker
+
+### Configuration d'un pipeline Jenkins : 
+
+J'ai configuré un pipeline Jenkins en utilisant un Jenkinsfile. Ce pipeline récupère le code depuis un dépôt Git, exécute des tests sur différentes versions de Node.js en parallèle, déploie l'application sur une branche de production et envoie des notifications Slack en fonction du résultat du déploiement
+
+### Intégration de la gestion des identifiants : 
+
+J'ai ajouté la gestion sécurisée des identifiants en utilisant les credentials de Jenkins pour stocker et récupérer les secrets nécessaires dans le pipeline
+
+### Configuration d'un déclenchement basé sur les changements de dossier : 
+
+J'ai configuré le pipeline pour qu'il ne s'exécute que lorsqu'un changement a lieu dans un dossier spécifique du répertoire
+
+### Automatisation du rollback en cas d'échec de déploiement : 
+
+J'ai ajouté une gestion des erreurs pour automatiser le rollback en cas d'échec du déploiement, pour assurer aussi une meilleure fiabilité du processus de déploiement
+
+### Intégration de l'analyse de code statique et des rapports de couverture de tests : 
+
+J'ai ajouté des étapes pour effectuer l'analyse de code statique et générer les rapports de couverture de tests dans le pipeline Jenkins
+
+
 
 http://localhost:8081
