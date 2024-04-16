@@ -22,7 +22,13 @@ pipeline {
                 branch 'production'
             }
             steps {
-                sh './deploy.sh'
+                script {
+                    if (currentBuild.result == 'SUCCESS') {
+                        sh './deploy_to_cloud.sh'
+                    } else {
+                        echo 'Tests failed on production branch. Skipping deployment.'
+                    }
+                }
             }
             post {
                 success {
