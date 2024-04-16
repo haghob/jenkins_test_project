@@ -14,6 +14,7 @@ pipeline {
                         echo "Running tests with Node.js version 10"
                         sh "npm install"
                         sh "npm run test --node=10"
+                        archiveArtifacts artifacts: 'test-results/**', allowEmptyArchive: true 
                     }
                 }
                 stage('Node 12') {
@@ -21,6 +22,7 @@ pipeline {
                         echo "Running tests with Node.js version 12"
                         sh "npm install"
                         sh "npm run test --node=12"
+                        archiveArtifacts artifacts: 'test-results/**', allowEmptyArchive: true
                     }
                 }
                 stage('Node 14') {
@@ -28,6 +30,7 @@ pipeline {
                         echo "Running tests with Node.js version 14"
                         sh "npm install"
                         sh "npm run test --node=14"
+                        archiveArtifacts artifacts: 'test-results/**', allowEmptyArchive: true
                     }
                 }
             }
