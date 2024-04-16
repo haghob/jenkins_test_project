@@ -1,6 +1,12 @@
 pipeline {
     agent any
     
+    
+    environment {
+        MY_SECRET = credentials('407907bd-ef21-45ce-94b2-3680739e98d1')
+    }
+    
+    
     stages {
         stage('Checkout') {
             steps {

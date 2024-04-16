@@ -54,11 +54,3 @@ RUN apt-get update && apt-get install -y \
 #################################################
 
 USER jenkins
-
-# Load plugins w jenkins-plugin-cli
-COPY --chown=jenkins:jenkins conf/plugins.txt /usr/share/jenkins/ref/plugins.txt
-RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
-
-# Jenkins runs all grovy files from init.groovy.d dir
-##COPY --chown=jenkins:jenkins conf/scripts/admin-user.groovy /usr/share/jenkins/ref/init.groovy.d/
-##VOLUME /var/jenkins_home
