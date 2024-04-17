@@ -8,7 +8,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                echo "Checking out the code from Git"
                 git 'https://github.com/haghob/jenkins_test_project.git'
+                echo "Code checkout complete"
             }
         }
         stage('Build and Test') {
