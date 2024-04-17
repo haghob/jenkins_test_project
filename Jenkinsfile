@@ -51,9 +51,9 @@ pipeline {
             }
         }
         stage('Deploy') {
-            when {
-                changeset "**/specific_folder/**"
-            }
+            //when {
+            //    changeset "**/specific_folder/**"
+            //}
             steps {
                 script {
                     try {
