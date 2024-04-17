@@ -34,15 +34,29 @@ Avec docker-compose (il est nécessaire d'utiliser cette commande) :
 docker-compose up -d
 ```
 
+
 # Étapes 
 
 ### Dockerfile pour Jenkins :
 
 création d'un Dockerfile personnalisé pour Jenkins, lui permettant d'être exécuté dans un conteneur Docker
 
-### Configuration d'un pipeline Jenkins : 
+### Configuration du pipeline Jenkins
 
-J'ai configuré un pipeline Jenkins en utilisant un Jenkinsfile. Ce pipeline récupère le code depuis un dépôt Git, exécute des tests sur différentes versions de Node.js en parallèle, déploie l'application sur une branche de production et envoie des notifications Slack en fonction du résultat du déploiement
+Pour configurer le pipeline Jenkins, j'ai suivi les étapes suivantes :
+
+1. Dans l'interface Jenkins, j'ai créé un nouvel élément de type *Pipeline**.
+2. Dans la section **Pipeline**, j'ai choisi **Pipeline script from SCM** dans le menu déroulant **Definition**.
+3. J'ai sélectionné **Git** comme SCM.
+4. J'ai ajouté l'URL de mon dépôt Git dans le champ **Repository URL**.
+
+Cela a permis à Jenkins de récupérer le Jenkinsfile de mon dépôt Git et d'exécuter le pipeline défini dans ce fichier.
+
+Cette configuration nécessite que mon dépôt Git contienne un fichier Jenkinsfile à la racine. Ce fichier définit les étapes de mon pipeline, y compris les tests à exécuter, les environnements sur lesquels exécuter ces tests, et les actions à entreprendre en fonction des résultats de ces tests.
+
+![plot](images/conf_git_jenkins.png)
+
+
 
 ### Intégration de la gestion des identifiants : 
 
