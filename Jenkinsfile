@@ -67,7 +67,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh './deploy_to_cloud.sh'
+                        sh 'deploy_to_cloud.sh'
                         slackSend(channel: '#notifications', message: 'Deployment to production successful')
                     } catch (Exception e) {
                         echo 'Deployment failed. Rolling back...'
