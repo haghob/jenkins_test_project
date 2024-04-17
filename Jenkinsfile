@@ -52,8 +52,18 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                changeset "**/specific_folder/**"
+                anyOf {
+                    branch 'main'
+                    changeRequest target: 'main'
+                }
+                expression {
+                    return sh(script: "git diff --name-only HEAD HEAD~ | grep '^specific_folder/'", returnStdout: true).trim() != ""
+                }
             }
+            
+            //when {
+            //    changeset "**/specific_folder/**"
+            //}
             steps {
                 script {
                     try {
