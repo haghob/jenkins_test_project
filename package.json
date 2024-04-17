@@ -1,0 +1,11 @@
+{
+  "name": "project_test",
+  "version": "1.0.0",
+  "description": "Pour lancer le service jenkins deux phases sont nécessaires, il est possible d'utiliser soit la commande docker soit la commande docker-compose.",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC"
+}

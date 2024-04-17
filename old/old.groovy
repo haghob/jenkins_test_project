@@ -13,46 +13,43 @@ pipeline {
                 echo "Code checkout complete"
             }
         }
-        stage('Configure Backend') {
-            steps {
-                echo "Configuring Backend"
-                sh "cd backend && npm install"
-            }
-        }
-        stage('Run Backend') {
-            steps {
-                echo "Running Backend"
-                sh "cd backend && npm start &"
-            }
-        }
-        stage('Configure Frontend') {
-            steps {
-                echo "Configuring Frontend"
-                sh "cd frontend && npm install"
-            }
-        }
-        stage('Run Frontend') {
-            steps {
-                echo "Running Frontend"
-                sh "cd frontend && npm start &"
-            }
-        }
-        stage('Test') {
-            steps {
-                echo "Running tests"
-                parallel (
-                    "Node 10": {
-                        sh "cd backend && npm run test --node=10"
-                    },
-                    "Node 12": {
-                        sh "cd backend && npm run test --node=12"
-                    },
-                    "Node 14": {
-                        sh "cd backend && npm run test --node=14"
+        stage('Build and Test') {
+            parallel {
+                stage('Node 10') {
+                    steps {
+                        echo "Running tests with Node.js version 10"
+                        sh "npm install"
+                        sh "npm run test --node=10"
+                        archiveArtifacts artifacts: 'test-results/**', allowEmptyArchive: true 
                     }
-                )
-                sh 'cd backend && npm run eslint'
-                sh 'cd backend && mvn clean test jacoco:report'
+                }
+                stage('Node 12') {
+                    steps {
+                        echo "Running tests with Node.js version 12"
+                        sh "npm install"
+                        sh "npm run test --node=12"
+                        archiveArtifacts artifacts: 'test-results/**', allowEmptyArchive: true
+                    }
+                }
+                stage('Node 14') {
+                    steps {
+                        echo "Running tests with Node.js version 14"
+                        sh "npm install"
+                        sh "npm run test --node=14"
+                        archiveArtifacts artifacts: 'test-results/**', allowEmptyArchive: true
+                    }
+                }
+            }
+        }
+        stage('Static Code Analysis') {
+            steps {
+                sh 'npm install eslint'
+                sh 'npm run eslint'
+            }
+        }
+        stage('Test Coverage Report') {
+            steps {
+                sh 'mvn clean test jacoco:report'
             }
         }
         stage('Deploy') {
@@ -65,11 +62,14 @@ pipeline {
                     return sh(script: "git diff --name-only HEAD HEAD~ | grep '^specific_folder/'", returnStdout: true).trim() != ""
                 }
             }
+            
+            //when {
+            //    changeset "**/specific_folder/**"
+            //}
             steps {
                 script {
                     try {
-                        sh 'cd backend && deploy_to_cloud.sh'
-                        sh 'cd frontend && deploy_to_cloud.sh'
+                        sh 'deploy_to_cloud.sh'
                         slackSend(channel: '#notifications', message: 'Deployment to production successful')
                     } catch (Exception e) {
                         echo 'Deployment failed. Rolling back...'
